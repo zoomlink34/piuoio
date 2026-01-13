@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RESERVE YOUR LEGACY</title>
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: #111; padding: 40px; border-radius: 20px; border: 2px solid #D4AF37; text-align: center; width: 320px; }
+        input { width: 90%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 1px solid #444; background: #222; color: #fff; }
+        .btn { width: 100%; padding: 15px; background: #D4AF37; color: #000; font-weight: bold; border-radius: 10px; border: none; cursor: pointer; }
+        
+        #congrats { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100; flex-direction: column; justify-content: center; align-items: center; }
+        .gold-txt { color: #D4AF37; font-size: 40px; font-weight: 900; }
+    </style>
+</head>
+<body>
+    <div class="box" id="f-box">
+        <h2 style="color:#D4AF37">RESERVE PLOT ($10)</h2>
+        <input type="text" id="bn" placeholder="Your Brand Name">
+        <input type="number" id="pid" placeholder="Plot ID (1-5000)">
+        <button class="btn" onclick="sendOrder()">SUBMIT REQUEST</button>
+    </div>
+
+    <div id="congrats">
+        <div class="gold-txt">CONGRATULATIONS! 🎉</div>
+        <h1 id="b-name" style="margin:20px 0;"></h1>
+        <p style="color:#D4AF37">Welcome to the 5K Legacy Wall</p>
+        <p>Redirecting to Home...</p>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        firebase.initializeApp({databaseURL: "https://m-legacy-5cf2b-default-rtdb.firebaseio.com/"});
+        function sendOrder() {
+            const n = document.getElementById('bn').value, p = document.getElementById('pid').value;
+            const id = "ORD" + Math.floor(Math.random()*99999);
+            if(!n || !p) return alert("Fill all!");
+            firebase.database().ref('orders/'+id).set({name:n, plotID:p}).then(() => {
+                document.getElementById('b-name').innerText = n;
+                document.getElementById('f-box').style.display='none';
+                document.getElementById('congrats').style.display='flex';
+                setTimeout(() => { window.location.href="index.html"; }, 3500);
+            });
+        }
+    </script>
+</body>
+</html>
