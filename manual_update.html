@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family:sans-serif; text-align:center; padding:50px; background:#eee;">
+    <div style="max-width:350px; margin:auto; background:#fff; padding:30px; border:2px solid #D4AF37; border-radius:20px;">
+        <h2>CEO MANUAL LOAD</h2>
+        <input type="text" id="n" placeholder="Brand Name" style="width:90%; padding:10px; margin:5px;"><br>
+        <input type="text" id="i" placeholder="Image URL" style="width:90%; padding:10px; margin:5px;"><br>
+        <input type="text" id="l" placeholder="Website" style="width:90%; padding:10px; margin:5px;"><br>
+        <input type="number" id="p" placeholder="Plot ID (1-5000)" style="width:90%; padding:10px; margin:5px;"><br>
+        <button onclick="mUp()" style="width:100%; padding:15px; background:#000; color:#fff; border:none; cursor:pointer; margin-top:10px;">FORCE PUBLISH</button>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        firebase.initializeApp({databaseURL: "https://m-legacy-5cf2b-default-rtdb.firebaseio.com/"});
+        function mUp() {
+            const name=document.getElementById('n').value, img=document.getElementById('i').value, link=document.getElementById('l').value, pid=parseInt(document.getElementById('p').value);
+            const x=((pid-1)%100)*40, y=Math.floor((pid-1)/100)*25;
+            firebase.database().ref('pixels/man_'+Date.now()).set({name, imageUrl:img, link, x, y, plotID:pid}).then(()=>alert("Success!"));
+        }
+    </script>
+</body>
+</html>
